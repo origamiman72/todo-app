@@ -1,0 +1,42 @@
+$title: 'Fjalla One', sans-serif;
+$body: 'Open Sans', sans-serif;
+
+body {
+  margin: 0;
+  font-family: $body;
+  /* background: black; */
+  /* color: white; */
+  margin-top: 100px;
+}
+
+h1, h2 {
+  font-family: $title;
+}
+
+header {
+  display: flex;
+
+  h1 {
+    margin: auto;
+  }
+}
+
+.TaskList {
+  /* color: pink; */
+  // background: red;
+  display: flex col;
+  margin: auto;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
