@@ -14,6 +14,7 @@ import moment from 'moment';
 import MomentUtils from "@date-io/moment";
 import Paper from '@material-ui/core/Paper';
 import 'remove-focus-outline';
+import AddIcon from '@material-ui/icons/Add';
 
 // import DayPickerInput from 'react-day-picker/DayPickerInput'
 
@@ -40,6 +41,7 @@ class TaskList extends Component {
         this.setCategory = this.setCategory.bind(this);
         this.removeCategory = this.removeCategory.bind(this);
         this.filterTasks = this.filterTasks.bind(this);
+        this.toggleAddCategory = this.toggleAddCategory.bind(this);
 
         this.state = {
             taskList: [],
@@ -49,6 +51,7 @@ class TaskList extends Component {
             categories: [],
             selectedCategory: null,
             filters: [],
+            addingCategory: false,
         }
     }
 
@@ -288,6 +291,11 @@ class TaskList extends Component {
         })
     }
 
+    toggleAddCategory() {
+        this.setState({
+            addingCategory: !this.state.addingCategory,
+        })
+    }
 
     render() {
         if (this.state.uncompletedTasks.length === 0) {
@@ -308,11 +316,16 @@ class TaskList extends Component {
             )
         }
 
+
         return (
             <div id="main-Cont" className="container">
                 <div>
                     <Paper className="sidebar" variant="outlined">
-                        <form onSubmit={this.addCategory} required id="addCategoryForm" className="card-1 horiz form-group">
+                        {!this.state.addingCategory &&
+                        <AddIcon className="clickable" color="primary" onClick={() => this.toggleAddCategory()}/>
+                        }
+                        {this.state.addingCategory && 
+                        <form onBlur={() => this.toggleAddCategory()} onSubmit={this.addCategory} required id="addCategoryForm" className="card-1 horiz form-group">
                             <TextField onKeyPress={(ev) => {
                                 if (ev.key === 'Enter') {
                                     this.addCategory(ev);
@@ -320,6 +333,7 @@ class TaskList extends Component {
                             }} className="textField" inputRef={(b) => this._inputcategory = b} label="Add new Category" variant="standard" />
                             <Button variant="outlined" className="submitButton" color="primary" onClick={this.addCategory}>Add</Button>
                         </form>
+                        }
                         <ul className="categories">
                         <FlipMove duration={250} easing="ease">
                             {this.state.categories.map(
