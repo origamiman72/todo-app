@@ -1,6 +1,8 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter, useHistory} from 'react-router-dom';
 import auth0Client from '../Auth';
+import Button from '@material-ui/core/Button';
+import '../Navbar.scss';
 
 function NavBar(props) {
     const signOut = () => {
@@ -8,20 +10,27 @@ function NavBar(props) {
         props.history.replace('/');
     };
 
+    const history = useHistory();
+
     return(
-        <nav className="navbar navbar-dark bg-primary fixed-top">
+        <nav className="navbar fixed-top">
             <Link className="navbar-brand" to="/">
                 Todo List
             </Link>
             {
                 !auth0Client.isAuthenticated() &&
-                <button className="btn btn-dark" onClick={auth0Client.signIn}>Sign In</button>
+                <Button variant="outlined" color="primary" onClick={auth0Client.signIn}>
+                    Sign in
+                </Button>
             }
             {
                 auth0Client.isAuthenticated() &&
                 <div>
-                    <label className="mr-2 text-white">{auth0Client.getProfile().name}</label>
-                    <button className="btn btn-dark" onClick={() => {signOut()}}>Sign Out</button>
+                    <Button className="navButton" onClick={() => history.push("/app")}>Tasks</Button>
+                    <Button className="navButton" onClick={() => history.push("/week")}>Week view</Button>
+                    {/* <label className="profileName mr-2">{auth0Client.getProfile().name}</label> */}
+                    <Button className="navButton">{auth0Client.getProfile().name}</Button>
+                    <Button className="navButton" variant="outlined" onClick={() => {signOut()}}>Sign Out</Button>
                 </div>
             }
         </nav>

@@ -1,0 +1,46 @@
+@import '../index.scss';
+
+/* Keyframes for initial animation */
+
+@keyframes strikeethrough {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+.Task {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: $border-color 1px solid;
+    padding: 2px 0;
+    padding-left: 15px;
+    
+    &:hover {
+        background: rgba(211, 211, 211, 0.253);
+    }
+
+    .taskContent {
+        align-self: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+        max-width: 40em;
+    }
+}
+
+.right-aligned {
+    margin-right: 0px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.categoryLabel {
+    align-self: center;
+}

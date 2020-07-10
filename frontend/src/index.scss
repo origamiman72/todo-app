@@ -1,5 +1,7 @@
 $title: 'Fjalla One', sans-serif;
 $body: 'Open Sans', sans-serif;
+$border-color: rgba(0, 0, 0, 0.08333333);
+$select: rgba(211, 211, 211, 0.253);
 
 body {
   margin: 0;
@@ -39,4 +41,13 @@ header {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.no-focus-outline a:focus,
+.no-focus-outline button:focus {
+  outline: none;
+}
+
+.selected {
+  background: $select;
 }

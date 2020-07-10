@@ -32,8 +32,10 @@ class NewQuestion extends Component {
         });
 
         await axios.post('http://localhost:8081', {
-            title: this.state.title,
-            description: this.state.description,
+            // title: this.state.title,
+            // description: this.state.description,
+            userName: this.state.title,
+            content: this.state.description,
         }, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         });
