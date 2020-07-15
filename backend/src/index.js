@@ -199,6 +199,7 @@ app.post('/app/editTask', checkJwt, (req, res) => {
         console.log(req.body);
         task.content = req.body.newContent;
         task.category = req.body.newCategory;
+        task.dueDate = req.body.newDate;
         task.save();
     });
     res.status(200).send();

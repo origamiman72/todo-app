@@ -2,24 +2,18 @@
 
 /* Keyframes for initial animation */
 
-@keyframes strikeethrough {
-	from {
-		transform: scaleX(0);
-	}
-	to {
-		transform: scaleX(1);
-	}
-}
 .Task {
     display: flex;
     justify-content: space-between;
     border-bottom: $border-color 1px solid;
     padding: 2px 0;
     padding-left: 15px;
-    
+    align-items: flex-start;
+
     &:hover {
         background: rgba(211, 211, 211, 0.253);
     }
+
 
     .taskContent {
         align-self: center;

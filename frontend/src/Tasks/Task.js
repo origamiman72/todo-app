@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import DateUI from '../components/dateUI/dateUI';
 import './Task.scss';
-import IconButton from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import CategoryMenu from '../components/categoryMenu/categoryMenu';
 import Checkbox from '@material-ui/core/Checkbox';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import moment from 'moment';
+import { TextField } from '@material-ui/core';
 
 function TaskMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,11 +65,12 @@ class Task extends Component {
         this.editSelf = this.editSelf.bind(this);
         this.startEditing = this.startEditing.bind(this);
         this.editCategory = this.editCategory.bind(this);
+        this.updateDate = this.updateDate.bind(this);
         var date = this.props.task.dueDate && new Date(this.props.task.dueDate);
 
         this.state = {
             editing: false,
-            date: this.props.task.date,
+            // date: this.props.task.date,
             // dueDate = this.props.task.dueDate,
             complete: this.props.task.completed,
             content: this.props.task.content,
@@ -75,8 +80,13 @@ class Task extends Component {
             day: date && date.getDate(),
             year: date && date.getFullYear(),
             date: date,
-            // dueDate: this.props.dueDate && Date(this.props.dueDate),
         }
+    }
+
+    updateDate(date) {
+        this.setState({
+            date: date,
+        })
     }
 
     completeSelf() {
@@ -98,24 +108,32 @@ class Task extends Component {
 
     editSelf(e) {
         e.preventDefault();
-        this.props.edit(this.state._id, this._inputElement.value, this.state.category);
+        if(this._inputElement.value == "") {
+            return;
+        }
+        this.props.edit(this.state._id, this._inputElement.value, this.state.category, this.state.date);
+        var date = this.state.date && new Date(this.state.date);
         this.setState({
             editing: false,
             content: this._inputElement.value,
-            category: this.state.category,
+            month: date && (date.getMonth() + 1),
+            day: date && date.getDate(),
+            year: date && date.getFullYear(),
+            category: this.category,
         });
     }
 
     cancelEditing(e) {
+        this.category = null;
+        this._inputElement.value = "";
         this.setState({
             editing: false,
         })
     }
 
     editCategory(category) {
-        this.setState({
-            category: category,
-        })
+        this.category = category;
+        this.setState({});
     }
 
 
@@ -123,39 +141,66 @@ class Task extends Component {
         let content;
         if (this.state.editing) {
             content = (
-                <form onSubmit={this.editSelf} id="editTaskForm" className="form-group">
-                    <input className="" placeholder="Edit this task."
+                <form onSubmit={this.editSelf} className="row" id="editTaskForm" className="form-group">
+                    {/* <input className="" placeholder="Edit this task."
                                         defaultValue={this.state.content} 
                                         ref={(a) => this._inputElement = a}
-                        type="text"></input>
+                        type="text"></input> */}
+                        <TextField onKeyPress={(ev) => {
+                            if (ev.key === 'Enter') {
+                                this.editSelf(ev);
+                            }
+                            }} 
+                            className="editTaskContent"
+                            placeholder="Edit this Task."
+                            defaultValue={this.state.content}
+                            required id="standard-basic"
+                            inputRef={(a) => this._inputElement = a}
+                            label="Edit Task"
+                            variant="standard" />
                     {/* <DatePicker showTimeSelect placeholderText="Due Date" selected={this.state.selectedDate} onChange={(date) => {this.updateDate(date)}} /> */}
+                            <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
+                        <KeyboardDatePicker
+                            clearable
+                            className="DatePicker"
+                            value={this.state.date}
+                            onChange={(date) => this.updateDate(date)}
+                            label="Due Date"
+                            format="MM/DD/yyyy"
+                        />
+                        </MuiPickersUtilsProvider>
                     <Button color="primary" onClick={this.editSelf}>Save</Button>
                     <Button color="primary" onClick={this.cancelEditing}>Cancel</Button>
                 </form>
             )
         } else {
-            content = <div className="row"><Checkbox onChange={() => this.completeSelf()} checked={this.state.complete} />
-            <div className="taskContent">{this.state.content}</div></div>
+            content = <div className="row left-align"><Checkbox onChange={() => this.completeSelf()} checked={this.state.complete} />
+                <div className="taskContent">
+                    {this.state.content}
+                {this.props.displayDate && this.state.date &&
+                    <DateUI
+                        month={this.state.month}
+                        day={this.state.day}
+                        year={this.state.year}
+                    />
+                }
+                </div>
+            </div>
         }
 
         return (
-            <li className={this.state.complete && "completed"}>
+            <li className={this.state.complete ? "completed" : ""}>
                 <div key={this.state.date} className="Task">
+                    <div>
                     {content}
+                    </div>
                     <div className="right-aligned row">
 
                     {this.state.editing &&
-                        <CategoryMenu className="categoryLabel" label={this.state.category} setCategory={this.editCategory} categories={this.props.categories} />
+                        <CategoryMenu className="categoryLabel" label={this.category || this.state.category} setCategory={this.editCategory} categories={this.props.categories} />
                     }
                     {!this.state.editing &&
                         <div className="categoryLabel">{this.state.category}</div>
-                    }
-                    {this.props.displayDate && this.state.date &&
-                        <DateUI
-                            month={this.state.month}
-                            day={this.state.day}
-                            year={this.state.year}
-                        />
                     }
                     {this.props.displayMenu &&
                         <TaskMenu className="categoryLabel" complete={this.state.complete} edit={this.startEditing} remove={this.deleteSelf} />

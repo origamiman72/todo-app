@@ -26,6 +26,7 @@ function NavBar(props) {
             {
                 auth0Client.isAuthenticated() &&
                 <div>
+                    <Button className="navButton" onClick={() => history.push("/calendar")}>Calendar View</Button>
                     <Button className="navButton" onClick={() => history.push("/app")}>Tasks</Button>
                     <Button className="navButton" onClick={() => history.push("/week")}>Week view</Button>
                     {/* <label className="profileName mr-2">{auth0Client.getProfile().name}</label> */}

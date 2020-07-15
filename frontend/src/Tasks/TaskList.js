@@ -23,8 +23,9 @@ import AddIcon from '@material-ui/icons/Add';
 // import "react-datepicker/dist/react-datepicker.css";
 import './TaskList.scss';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { Typography } from '@material-ui/core';
 
 class TaskList extends Component {
 
@@ -156,19 +157,21 @@ class TaskList extends Component {
     }
 
     // Edits a task.
-    async editTask(key, newContent, newCategory) {
+    async editTask(id, newContent, newCategory, newDate) {
+        console.log(newDate);
         if (!auth0Client.isAuthenticated()) {
             this.props.history.push('/');
             return;
         }
         const attempt = await axios.post('http://localhost:8081/app/editTask', {
-            key: key,
+            key: id,
             newContent: newContent,
             newCategory: newCategory,
+            newDate: newDate,
         }, {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         });
-        this.refreshTasks();
+        // this.refreshTasks();
     }
 
     // Marks a task as completed.
@@ -241,8 +244,13 @@ class TaskList extends Component {
                 headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
             });
 
+            var categories = this.state.categories;
+            categories.push(this._inputcategory.value);
+            this.setState({
+                categories: categories,
+            })
             this._inputcategory.value = null;
-            this.getCategories();
+            // this.getCategories();
         }
 
     }
@@ -261,7 +269,12 @@ class TaskList extends Component {
             headers: {'Authorization': `Bearer ${auth0Client.getIdToken()}`}
         });
 
-        this.getCategories();
+        var categories = this.state.categories.filter(item => item !== category);
+        this.setState({
+            categories: categories,
+        })
+        
+        // this.getCategories();
         this.refreshTasks();
     }
 
@@ -321,9 +334,16 @@ class TaskList extends Component {
             <div id="main-Cont" className="container">
                 <div>
                     <Paper className="sidebar" variant="outlined">
-                        {!this.state.addingCategory &&
-                        <AddIcon className="clickable" color="primary" onClick={() => this.toggleAddCategory()}/>
-                        }
+                        {/* {!this.state.addingCategory && */}
+                        <div className="d-flex justify-content-between categories-label">
+                            <Typography variant="h6" component="h2">
+                                Categories
+                            </Typography>
+                            <IconButton size="small" aria-label="add new category" onClick={() => this.toggleAddCategory()}>
+                                <AddIcon className="add-icon" color="primary"/>
+                            </IconButton>
+                        </div>
+                        {/* } */}
                         {this.state.addingCategory && 
                         <form onBlur={() => this.toggleAddCategory()} onSubmit={this.addCategory} required id="addCategoryForm" className="card-1 horiz form-group">
                             <TextField onKeyPress={(ev) => {
@@ -331,7 +351,7 @@ class TaskList extends Component {
                                     this.addCategory(ev);
                                 }
                             }} className="textField" inputRef={(b) => this._inputcategory = b} label="Add new Category" variant="standard" />
-                            <Button variant="outlined" className="submitButton" color="primary" onClick={this.addCategory}>Add</Button>
+                            <Button variant="contained" className="submitButton" color="primary" onClick={this.addCategory}>Add</Button>
                         </form>
                         }
                         <ul className="categories">
@@ -361,6 +381,7 @@ class TaskList extends Component {
                             <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
 
                             <KeyboardDatePicker
+                                clearable
                                 className="DatePicker"
                                 value={this.state.selectedDate}
                                 onChange={(date) => this.updateDate(date)}

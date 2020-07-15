@@ -32,7 +32,7 @@ function CategoryMenu(props) {
                 >
                     <MenuItem onClick={() => handleClose(null)}>None</MenuItem>
                 {props.categories.map((category) => (
-                    <MenuItem onClick={() => {
+                    <MenuItem key={category} onClick={() => {
                         handleClose(category);
                     }}>{category}</MenuItem>
                     

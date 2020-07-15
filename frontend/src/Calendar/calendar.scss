@@ -1,0 +1,11 @@
+.calendar {
+    display: inline-block;
+    margin: auto;
+
+    .calendar-day {
+        // border: gray solid 1px;
+        min-width: 100px;
+        height: 100px;
+        align-items: center;
+    }
+}
