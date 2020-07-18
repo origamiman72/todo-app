@@ -1,11 +1,55 @@
+@import '../index.scss';
+
 .calendar {
     display: inline-block;
     margin: auto;
+    border-collapse: separate !important;
 
     .calendar-day {
         // border: gray solid 1px;
-        min-width: 100px;
-        height: 100px;
-        align-items: center;
+        min-width: 180px;
+        max-width: 180px;
+        height: 150px;
+        vertical-align: top;
+        padding: 10px;
+
+        ul {
+            li {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            }
+        }
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        border-radius: 10px;
+        &:hover {
+            background: $select;
+        }
+    }
+
+    .empty {
+        &:hover {
+            background: none !important;
+        }
+    }
+
+    .today {
+        border: solid 2px turquoise;
+        color: teal;
+        border-radius: 20px;
+    }
+
+    .weekday-label {
+        padding: 20px 0;
+    }
+
+    .calendar-month {
+        font-size: xx-large;
+        display: inline-block;
+        margin: auto;
     }
 }

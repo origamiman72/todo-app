@@ -3,6 +3,8 @@ import moment from 'moment';
 import './calendar.scss';
 import auth0Client from '../Auth';
 import axios from 'axios';
+import Task from '../Tasks/Task';
+import MiniTask from '../Tasks/MiniTask';
 
 class Calendar extends Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class Calendar extends Component {
 
     firstDayOfMonth = () => {
         let dateObject = this.state.dateObject;
-        let firstDay = moment(dateObject).startOf("moment").format("d");
+        let firstDay = moment(dateObject).startOf("month").format("d");
         return firstDay;
     }
 
@@ -46,12 +48,44 @@ class Calendar extends Component {
             )
         }
         let daysInMonth = [];
-        for (let d = 0; d < this.state.dateObject.daysInMonth(); d++) {
+        for (let d = 1; d <= this.state.dateObject.daysInMonth(); d++) {
             daysInMonth.push(
                 <td key={d} className="calendar-day">
                     {d}
                 </td>
             );
+        }
+
+        let relevantTasks = [];
+        for (let i = 0; i < this.state.taskList.length; i++) {
+            var curr = this.state.taskList[i];
+            if (curr.dueDate) {
+                if (moment(curr.dueDate).month() === this.state.dateObject.month()) {
+                    relevantTasks.push(curr);
+                }
+            }
+        }
+
+        for (let i = 0; i < daysInMonth.length; i++) {
+            var currDay = daysInMonth[i];
+            var todayTasks = [];
+            for (let j = 0; j < relevantTasks.length; j++) {
+                var currTask = relevantTasks[j];
+                if (moment(currTask.dueDate).date() == currDay.key) {
+                    todayTasks.push(currTask);
+                }
+
+            }
+            let currentDay = currDay.key == moment().date() ? "today" : "";   
+            daysInMonth[i] =
+                <td key={daysInMonth[i].key} className={`calendar-day ${currentDay}`}>
+
+                {daysInMonth[i].key}
+                <ul>
+                    {todayTasks.map((task) =>
+                    <li><MiniTask content={task.content} key={task._id} id={task._id}/></li>)}
+                </ul>
+            </td>
         }
 
         var totalSlots = [...blanks, ...daysInMonth];
@@ -82,18 +116,12 @@ class Calendar extends Component {
             return <tr>{d}</tr>
         })
 
-        for (let i = 0; i < this.state.taskList.length; i++) {
-            var curr = this.state.taskList[i];
-            if (curr.dueDate && moment(curr.dueDate).month() === this.dateObject.month()) {
-                console.log("nut");
-            }
-        }
-
         return (
             // <div>Calendar</div>
             <div className="container d-flex justify-content-center">
                 <div className="calendar">
-                    <table className="calendar-day">
+                    <div className="calendar-month">{this.state.dateObject.format("MMMM")}</div>
+                    <table className="">
                         <thead>
                             <tr>{weekdayshortname}</tr>
                         </thead>
