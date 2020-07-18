@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import auth0Client from '../Auth';
+import './MiniTask.scss'
 
 class MiniTask extends Component {
 

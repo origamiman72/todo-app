@@ -83,7 +83,7 @@ class Calendar extends Component {
                 {daysInMonth[i].key}
                 <ul>
                     {todayTasks.map((task) =>
-                    <li><MiniTask content={task.content} key={task._id} id={task._id}/></li>)}
+                    <li><MiniTask content={task.content} key={task._id} id={task._id} complete={task.completed} /></li>)}
                 </ul>
             </td>
         }

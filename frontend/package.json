@@ -30,7 +30,8 @@
     "react-flip-move": "^3.0.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "remove-focus-outline": "^1.2.1"
+    "remove-focus-outline": "^1.2.1",
+    "websocket-extensions": "^0.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,0 +1,9 @@
+@import '../index.scss';
+
+.mini-task {
+    border-bottom: transparent 2px solid;
+
+    &:hover {
+        border-bottom: $border-color 2px solid;
+    }
+}
