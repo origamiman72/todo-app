@@ -26,6 +26,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { Typography } from '@material-ui/core';
+import AddTask from './AddTask';
 
 class TaskList extends Component {
 
@@ -43,6 +44,7 @@ class TaskList extends Component {
         this.removeCategory = this.removeCategory.bind(this);
         this.filterTasks = this.filterTasks.bind(this);
         this.toggleAddCategory = this.toggleAddCategory.bind(this);
+        this.refreshTasks = this.refreshTasks.bind(this);
 
         this.state = {
             taskList: [],
@@ -371,7 +373,7 @@ class TaskList extends Component {
                 </div>
                 <div className="main">
                 <Paper variant="outlined" className="TaskList">
-                    <div>
+                    {/* <div>
                         <form onSubmit={this.addTask} id="addTaskForm" className="card-1 form-group">
                             <TextField onKeyPress={(ev) => {
                                 if (ev.key === 'Enter') {
@@ -392,7 +394,8 @@ class TaskList extends Component {
                             <Button variant="contained" className="submitButton" color="primary" onClick={this.addTask}>Add</Button>
                             <CategoryMenu label={this.state.selectedCategory} setCategory={this.setCategory} categories={this.state.categories} />
                         </form>
-                    </div>
+                    </div> */}
+                    <AddTask refreshTasks={this.refreshTasks} categories={this.state.categories} />
                     <ul>
                         <FlipMove duration={250} easing="ease">
                         {uncompletedTasksRender}

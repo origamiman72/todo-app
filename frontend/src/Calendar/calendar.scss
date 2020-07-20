@@ -18,16 +18,40 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+                .mini-task {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
 
+                    &.overdue {
+                        color: red;
+                    }
+                }
             }
         }
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
-        border-radius: 10px;
+        border-radius: 5px;
+        border: transparent 1px solid;
+
+        .hover-only {
+            opacity: 0;
+        }
+
+        .day-header {
+            align-items: center;
+        }
+
         &:hover {
-            background: $select;
+            // background: $select;
+            border: $border-color 1px solid;
+            
+
+            .hover-only {
+                opacity: 100;
+            }
         }
     }
 
@@ -38,13 +62,13 @@
     }
 
     .today {
-        border: solid 2px turquoise;
+        border: solid 1px teal;
         color: teal;
-        border-radius: 20px;
+        border-radius: 5px;
     }
 
     .weekday-label {
-        padding: 20px 0;
+        padding: 20px 10px;
     }
 
     .calendar-month {
@@ -52,4 +76,29 @@
         display: inline-block;
         margin: auto;
     }
+}
+
+.fullScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    // margin: auto;
+    color: white;
+
+    .dark-background {
+        position: absolute;
+        min-height: 100%;
+        min-width: 100%;
+        background: rgba(0, 0, 0, 0.726);
+    }
+
+    .addTask {
+        margin: auto;
+        padding: 20px;
+        z-index: 1000;
+    }
+
 }

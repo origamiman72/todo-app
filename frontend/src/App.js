@@ -18,9 +18,7 @@ class App extends Component {
         <Route exact path='/app' component={TaskList}/>
         <Route exact path='/week' component={Week}/>
         <Route exact path='/calendar' component={Calendar}/>
-        <Route exact path='/question/:questionId' component={Question}/>
         <Route exact path='/callback' component={Callback} />
-        <SecuredRoute path='/new-question' component={NewQuestion} />
       </div>
     )
   }

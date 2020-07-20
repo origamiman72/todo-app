@@ -37,8 +37,9 @@ class MiniTask extends Component {
     render() {
 
         var completeClass = this.state.complete ? "completed" : "";
+        var overdue = (this.props.overdue && !this.state.complete) ? "overdue" : "";
         return (
-            <div className={`mini-task clickable ${completeClass}`}
+            <div className={`mini-task clickable ${completeClass} ${overdue}`}
                 onClick={() => this.complete(this.state.id)}>
                 {this.state.content}
             </div>

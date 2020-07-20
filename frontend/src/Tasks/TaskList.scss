@@ -13,18 +13,21 @@
         padding-left: 10px;
     }
 
+    #addTaskForm {
+        &:hover {
+            background: rgba(211, 211, 211, 0.253);
+            // border: rgba(211, 211, 211, 0.253) 2px solid;
+        }
+    }
+
     form {
         border-radius: 5px;
         display: flex row nowrap;
         justify-content: space-between;
         flex-flow: row nowrap;
-        border: rgba(211, 211, 211, 0.253) 2px solid;
+        // border: rgba(211, 211, 211, 0.253) 2px solid;
         padding: 10px 10px;
 
-        &:hover {
-            background: rgba(211, 211, 211, 0.253);
-            border: rgba(211, 211, 211, 0.253) 2px solid;
-        }
 
         .addTaskField {
             border: none;

@@ -15,7 +15,7 @@ function CategoryMenu(props) {
         props.setCategory(category)
     };
 
-    if (props.categories.length === 0) {
+    if (!props.categories || props.categories.length === 0) {
         return null;
     } else {
         return (
