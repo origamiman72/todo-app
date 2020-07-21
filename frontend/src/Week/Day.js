@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { CardHeader } from '@material-ui/core';
+import MiniTask from '../Tasks/MiniTask';
 
 
 /**
@@ -29,13 +30,14 @@ class Day extends Component {
     }
 
 
-    renderTask = (task) => <Task
-                                displayMenu
-                                key={task.date} 
-                                edit={this.editTask}
-                                complete={this.props.complete} 
-                                remove={this.deleteTask} 
-                                task={task} />
+    // renderTask = (task) => <Task
+    //                             displayMenu
+    //                             key={task.date} 
+    //                             edit={this.editTask}
+    //                             complete={this.props.complete} 
+    //                             remove={this.deleteTask} 
+    //                             task={task} />
+    renderTask = (task) => <MiniTask complete={task.complete} content={task.content} id={task._id} />
     
 
     render() {

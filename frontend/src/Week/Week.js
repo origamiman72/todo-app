@@ -6,6 +6,7 @@ import moment from 'moment';
 import Task from '../Tasks/Task';
 import './week.scss';
 import Day from './Day';
+import MiniTask from '../Tasks/MiniTask';
 
 
 class Week extends Component {
@@ -106,12 +107,14 @@ class Week extends Component {
         }
     }
 
-    taskFunction = (task) => <Task
-                                key={task.date} 
-                                edit={this.editTask}
-                                complete={this.completeTask} 
-                                remove={this.deleteTask} 
-                                task={task} />
+    // taskFunction = (task) => <Task
+    //                             key={task.date} 
+    //                             edit={this.editTask}
+    //                             complete={this.completeTask} 
+    //                             remove={this.deleteTask} 
+    //                             task={task} />
+
+    taskFunction = (task) => <MiniTask complete={task.complete} content={task.content} id={task._id} />
 
     async completeTask(key) {
         const attempt = await axios.post('http://localhost:8081/app/completeTask', {
