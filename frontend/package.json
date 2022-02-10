@@ -21,7 +21,7 @@
     "helmet": "^3.23.3",
     "moment": "^2.27.0",
     "morgan": "^1.10.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-datepicker": "^3.0.0",
